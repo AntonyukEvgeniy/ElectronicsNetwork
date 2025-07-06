@@ -11,7 +11,8 @@ dependencies = [
     "django (>=5.2.4,<6.0.0)",
     "djangorestframework (>=3.16.0,<4.0.0)",
     "environs (>=14.2.0,<15.0.0)",
-    "psycopg2-binary (>=2.9.10,<3.0.0)"
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "faker (>=37.4.0,<38.0.0)"
 ]
 
 
