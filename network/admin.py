@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.db.models import Q
 from django.utils.html import format_html
 
 from .models import NetworkNode, Product, ProductAvailability
@@ -7,7 +6,7 @@ from .models import NetworkNode, Product, ProductAvailability
 
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
-    list_display = ["name", "type", "city", "supplier_link", "debt", "level"]
+    list_display = ["name", "type", "country", "city", "supplier_link", "debt", "level"]
     list_filter = ["type", "city"]
     search_fields = ["name", "email"]
     actions = ["clear_debt"]
@@ -20,19 +19,14 @@ class NetworkNodeAdmin(admin.ModelAdmin):
 
     supplier_link.short_description = "Поставщик"
 
-    def clear_debt(self, request, queryset):
+    def clear_debt(self, queryset):
         queryset.update(debt=0)
 
     clear_debt.short_description = "Очистить задолженность"
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser:
-            return qs
-        return qs.filter(
-            Q(id__in=request.user.networknode_set.all())
-            | Q(parent__in=request.user.networknode_set.all())
-        )
+        return qs
 
 
 @admin.register(Product)
