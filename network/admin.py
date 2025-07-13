@@ -7,7 +7,7 @@ from .models import NetworkNode, Product, ProductAvailability
 
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
-    list_display = ["name", "type", "city", "supplier_link", "debt"]
+    list_display = ["name", "type", "city", "supplier_link", "debt", "level"]
     list_filter = ["type", "city"]
     search_fields = ["name", "email"]
     actions = ["clear_debt"]

@@ -7,7 +7,7 @@ class NetworkNodeSerializer(serializers.ModelSerializer):
     debt_to_supplier = serializers.DecimalField(
         source="debt", max_digits=10, decimal_places=2, read_only=True
     )
-
+    level = serializers.IntegerField(read_only=True)
     class Meta:
         model = NetworkNode
         fields = [
@@ -22,4 +22,5 @@ class NetworkNodeSerializer(serializers.ModelSerializer):
             "created_at",
             "debt_to_supplier",
             "parent",
+            "level"
         ]

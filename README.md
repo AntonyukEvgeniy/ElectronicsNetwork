@@ -22,7 +22,7 @@
 
 ---
 
-## 🛠 Установка и настройка
+## 🛠 Установка и настройка вручную (без Docker)
 
 ### 1. Клонирование проекта
 
@@ -66,6 +66,66 @@ DATABASE_PORT=5432
 ```bash
 python manage.py migrate
 ```
+
+---
+
+## 🚢 Запуск проекта в Docker
+
+### Требования
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+### 📄 1. Подготовка `.env`
+
+Создай файл `.env` в корне проекта (или используй `.env.example`), например:
+
+```
+SECRET_KEY=your_secret_key
+DEBUG=True
+DATABASE_NAME=network
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_HOST=db
+DATABASE_PORT=5432
+```
+
+### ⚙️ 2. Сборка и запуск контейнеров
+
+```bash
+docker compose up --build
+```
+
+> При первом запуске:
+> - будет создана база данных;
+> - выполнены миграции;
+> - заполнены тестовые данные (`populate_db`, `populate_product_availability`);
+> - запустится сервер на http://localhost:8000.
+
+### 🧪 3. Полезные команды
+
+**Повторно применить миграции вручную:**
+```bash
+docker compose run --rm run_migrations
+```
+
+**Повторно заполнить данные:**
+```bash
+docker compose run --rm init_data
+```
+
+**Запустить только web-сервер:**
+```bash
+docker compose up web
+```
+
+### 💡 Примечания
+
+- В `docker-compose.yml` используется многоступенчатый запуск:
+  - `db` — база данных PostgreSQL
+  - `run_migrations` — миграции при старте
+  - `init_data` — заполнение начальных данных **только один раз**
+  - `web` — Django-сервер
+- Команда запуска определяется через `command:`, **`entrypoint.sh` не используется**.
 
 ---
 
